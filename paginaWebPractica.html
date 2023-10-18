@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/disenoPaginaWebPractica.css">
+    <h1><div>Activities report</div></h1>
+  </head>
+  <body>
+    <div class="activityContainer">
+        <table class="activitiesReport">
+            <thead>
+                <tr>
+                    <th>Completed</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+            <tbody id="data"></tbody>
+        </table>
+    </div>
+    <script>
+        const loadData = async() => {
+            try {
+                const response = await fetch('https://dummyjson.com/todos');
+                console.log(response);
+
+                const activityData = await response.json();
+                console.log(activityData);
+            } catch(error){
+                console.log(error);
+            }
+        }
+        loadData();
+        const showData = (data) => {
+            console.log(data)
+            let body = ''
+            for (let i = 0; i<data.length; i++){
+                body += `<tr><td>${data[i].completed}</td><td>${data[i].todo}</td></tr>`
+            }
+            document.getElementById('data').innerHTML = body
+        }
+    </script>
+  </body>
+</html>
