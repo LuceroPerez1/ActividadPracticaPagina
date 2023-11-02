@@ -1,44 +1,92 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="/disenoPaginaWebPractica.css">
-    <h1>Activities report</h1>
-  </head>
-  <body>
-    <div class="activityContainer">
-        <table class="activitiesReport">
-            <thead>
-                <tr>
-                    <th>Completed</th>
-                    <th>Activity</th>
-                </tr>
-            </thead>
-            <tbody id="data"></tbody> 
-        </table>
-    </div>
-    <script>
-        const loadData = async() => {
-            try {
-                const response = await fetch('https://dummyjson.com/todos/1');
-                console.log(response);
-                const activityData = await response.json();
-                console.log(activityData);
-                showData(activityData);
-            } catch(error){
-                console.log(error);
-            }
-        }
-        loadData();
-        const showData = (data) => {
-            if (data.completed === true) {
-                data.completed = '✅'
-                console.log(data.completed);
-            } else if (data.completed === false) 
-            console.log("False");
+    <head>
+        <link
+        rel="stylesheet"
+        type="text/css"
+        href="./disenoPaginaWebPractica.css"
+        />
+        <h1>Reporte de actividades</h1>
+    </head>
+    <body>
+        <div class="Contendor">
+            <table class="TablaDeActividades">
+                <thead>
+                    <tr>
+                        <th>Completado</th>
+                        <th>Actividad</th>
+                    </tr>
+                </thead>
+                <tbody id="datos"></tbody>
+            </table>
+        </div>
+
+        <script>
+            const cargarDatos = async () => {
+                try {
+                    const respuestaDeCargaDeDatos = await fetch("https://dummyjson.com/todos/");
+                    const datosCargados = await respuestaDeCargaDeDatos.json();
+                    datosCargados.todos.forEach((valoresDeApi, index) => {
+                        datosDeMapeo(valoresDeApi, index);
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+            };
+            cargarDatos();
+
+            const condicionalDeCumplimiento = (valoresDeApi, actividadId) => {
+                if (valoresDeApi) {
+                    return `✅`;
+                } else {
+                    return `<input type="checkbox" data-actividad-id="${actividadId}">`;
+                }
+            };
+
+            const datosDeMapeo = (datos) => {
+                document.getElementById("datos").insertAdjacentHTML(
+                    "beforebegin",
+                    `<tr>
+                        <td>${condicionalDeCumplimiento(datos.completed)}</td>
+                        <td>${datos.todo}</td>
+                    </tr>`  
+                );
+            };
             
-            let body = `<tr><td>${data.completed}</td><td>${data.todo}</td></tr>`;
-            document.getElementById('data').innerHTML = body;
-        };
-    </script>
-  </body>
+            const checkedCheckbox = (event) => {
+                const actividadId = event.target.getAttribute("data-actividad-id");
+                const completed = event.target.checked;
+
+                fetch(`https://dummyjson.com/todos/${actividadId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        completed:completed,
+                    })
+                })
+                .then(respuesta => {
+                    if (respuesta.ok) {
+                        return respuesta.json();
+                    } else {
+                        throw new Error("Error de actualización");
+                    }
+                })
+                .then(actualizacionDeDatos => {
+                    const checkboxCell = event.target.parentElement;
+                    checkboxCell.innerHTML = condicionalDeCumplimiento(actualizacionDeDatos.completed, actividadId);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            };
+
+            document.getElementById("datos").addEventListener("click", (event) => {
+                if (event.target.type === "checkbox") {
+                    checkedCheckbox(event);
+                }
+            });
+        </script>
+    </body>
 </html>
