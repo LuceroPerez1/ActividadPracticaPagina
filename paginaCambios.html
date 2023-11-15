@@ -1,92 +1,90 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link
-        rel="stylesheet"
-        type="text/css"
-        href="./disenoPaginaWebPractica.css"
-        />
-        <h1>Reporte de actividades</h1>
-    </head>
-    <body>
-        <div class="Contendor">
-            <table class="TablaDeActividades">
-                <thead>
-                    <tr>
-                        <th>Completado</th>
-                        <th>Actividad</th>
-                    </tr>
-                </thead>
-                <tbody id="datos"></tbody>
-            </table>
-        </div>
+<head>
+    <link rel="stylesheet" type="text/css" href="./disenoPaginaWebPractica.css" />
+    <h1>Reporte de actividades</h1>
+</head>
+<body>
+    <div class="Contendor">
+        <table class="TablaDeActividades">
+            <thead>
+                <tr>
+                    <th>Completado</th>
+                    <th>Actividad</th>
+                </tr>
+            </thead>
+            <tbody id="datos"></tbody>
+        </table>
+    </div>
 
-        <script>
-            const cargarDatos = async () => {
-                try {
-                    const respuestaDeCargaDeDatos = await fetch("https://dummyjson.com/todos/");
-                    const datosCargados = await respuestaDeCargaDeDatos.json();
-                    datosCargados.todos.forEach((valoresDeApi, index) => {
-                        datosDeMapeo(valoresDeApi, index);
-                    });
-                } catch (error) {
-                    console.log(error)
-                }
-            };
-            cargarDatos();
-
-            const condicionalDeCumplimiento = (valoresDeApi, actividadId) => {
-                if (valoresDeApi) {
-                    return `✅`;
-                } else {
-                    return `<input type="checkbox" data-actividad-id="${actividadId}">`;
-                }
-            };
-
-            const datosDeMapeo = (datos) => {
-                document.getElementById("datos").insertAdjacentHTML(
-                    "beforebegin",
-                    `<tr>
-                        <td>${condicionalDeCumplimiento(datos.completed)}</td>
-                        <td>${datos.todo}</td>
-                    </tr>`  
-                );
-            };
-            
-            const checkedCheckbox = (event) => {
-                const actividadId = event.target.getAttribute("data-actividad-id");
-                const completed = event.target.checked;
-
-                fetch(`https://dummyjson.com/todos/${actividadId}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        completed:completed,
-                    })
-                })
-                .then(respuesta => {
-                    if (respuesta.ok) {
-                        return respuesta.json();
-                    } else {
-                        throw new Error("Error de actualización");
-                    }
-                })
-                .then(actualizacionDeDatos => {
-                    const checkboxCell = event.target.parentElement;
-                    checkboxCell.innerHTML = condicionalDeCumplimiento(actualizacionDeDatos.completed, actividadId);
-                })
-                .catch(error => {
-                    console.error(error);
+    <script>
+        const cargarDatos = async () => {
+            try {
+                const respuestaDeCargaDeDatos = await fetch("https://dummyjson.com/todos/");
+                const datosCargados = await respuestaDeCargaDeDatos.json();
+                datosCargados.todos.forEach((valoresDeApi, index) => {
+                    datosDeMapeo(valoresDeApi, index);
                 });
-            };
+            } catch (error) {
+                console.log(error)
+            }
+        };
+        cargarDatos();
 
-            document.getElementById("datos").addEventListener("click", (event) => {
-                if (event.target.type === "checkbox") {
-                    checkedCheckbox(event);
+        const condicionalDeCumplimiento = (valoresDeApi, actividadId) => {
+            if (valoresDeApi.completed) {
+                return `✅`;
+            } else {
+                return `<input type="checkbox" data-actividad-id="${actividadId}">`;
+            }
+        };
+
+        const datosDeMapeo = (datos) => {
+            document.getElementById("datos").insertAdjacentHTML(
+                "beforeend",
+                `<tr>
+                    <td>${condicionalDeCumplimiento(datos, datos.id)}</td>
+                    <td>${datos.todo}</td>
+                </tr>`  
+            );
+        };
+
+        const tipo = "checkbox";
+
+        document.getElementById("datos").addEventListener("change", (event) => {
+            if (event.target.type === tipo) {
+                checkedCheckbox(event);
+            }
+        });
+
+        const checkedCheckbox = (event) => {
+            const actividadId = event.target.getAttribute("data-actividad-id");
+            const completed = event.target.checked;
+
+            fetch(`https://dummyjson.com/todos/${actividadId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    completed: 'true',
+                })
+            })
+            .then(respuesta => {
+                if (respuesta.ok) {
+                    return respuesta.json();
+                } else {
+                    throw new Error("Error de actualización");
                 }
+            })
+            .then(actualizacionDeDatos => {
+                const checkboxCell = event.target.parentElement;
+                checkboxCell.innerHTML = condicionalDeCumplimiento(actualizacionDeDatos, actividadId);
+            })
+            .catch(error => {
+                console.error('Error en la solicitud patch', error)
             });
-        </script>
-    </body>
+        };
+    </script>
+</body>
 </html>
