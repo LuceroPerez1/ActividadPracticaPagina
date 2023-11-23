@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <script>
+        let nivel = prompt("Niveles de juego: 1.Fácil  2.Normal  3.Experto   Selecciona una opción: ")
+        let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R',
+        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        let emojis = ['🚀', '😊', '🎉', '🌈', '🍎', '🌟', '🌍', '📚', '🎸', '🏆', '🍓', '🌷', '🎤', '🌳', '🐬', 
+        '🍉', '🎨', '🍦', '🌺', '🍕'];
+        let indiceAleatorio = Math.floor(Math.random() * letras.length);
+        let indiceRandom = Math.floor(Math.random() * emojis.length)
+        let primerNivel = Math.floor(Math.random() * 40 + 1);
+        let segundoNivel = primerNivel + ' ' + letras[indiceAleatorio]
+        let tercerNivel = primerNivel + ' ' + segundoNivel + ' ' + emojis[indiceRandom];
+        
+        rl.close();
+        </script>
+    </body>
+</html>
