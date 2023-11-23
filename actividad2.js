@@ -10,14 +10,13 @@ function iniciarJuego() {
   rl.question('¿Qué nivel deseas?', function (nivel) {
     console.log("Nivel: " + nivel);
     let contadorRespuesta = 0;
-    let primerNivel = Math.floor(Math.random() * 40 + 1);
 
     if (nivel === '1') {
-      jugarNivel1(primerNivel, contadorRespuesta);
+      jugarNivel1(contadorRespuesta);
     } else if (nivel === '2') {
-      jugarNivel2(primerNivel, contadorRespuesta);
+      jugarNivel2(contadorRespuesta);
     } else if (nivel === '3') {
-      jugarNivel3(primerNivel, contadorRespuesta);
+      jugarNivel3(contadorRespuesta);
     } else {
       console.log('Nivel no válido');
       rl.close();
@@ -25,7 +24,23 @@ function iniciarJuego() {
   });
 }
 
-function jugarNivel1(primerNivel, contadorRespuesta) {
+function generarNumeroAleatorio() {
+  return Math.floor(Math.random() * 40 + 1);
+}
+
+function generarLetraAleatoria() {
+  let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  return letras[Math.floor(Math.random() * letras.length)];
+}
+
+function generarEmojiAleatorio() {
+  let emojis = ['🚀', '😊', '🎉', '🌈', '🍎', '🌟', '🌍', '📚', '🎸', '🏆', '🍓', '🌷', '🎤', '🌳', '🐬', '🍉', '🎨', '🍦', '🌺', '🍕'];
+  return emojis[Math.floor(Math.random() * emojis.length)];
+}
+
+
+function jugarNivel1(contadorRespuesta) {
+  let primerNivel = generarNumeroAleatorio();
   process.stdout.write(String(primerNivel));
   setTimeout(function () {
     process.stdout.clearLine();
@@ -34,18 +49,18 @@ function jugarNivel1(primerNivel, contadorRespuesta) {
       if (respuesta === primerNivel.toString()) {
         contadorRespuesta++;
         console.log('¡Correcto, continúemos!');
-        jugarNivel1(Math.floor(Math.random() * 40 + 1), contadorRespuesta);
+        jugarNivel1(contadorRespuesta);
       } else {
         console.log('Respuesta incorrecta. El número correcto era: ' + primerNivel + '. Tu puntaje fue de: ' + contadorRespuesta);
         preguntarJugarDeNuevo();
-      };
+      }
     });
   }, 1000);
 }
 
-function jugarNivel2(primerNivel, contadorRespuesta) {
-  let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  let segundoNivel = letras[Math.floor(Math.random() * letras.length)]; 
+function jugarNivel2(contadorRespuesta) {
+  let primerNivel = generarNumeroAleatorio();
+  let segundoNivel = generarLetraAleatoria();
   process.stdout.write(String(primerNivel + segundoNivel));
   setTimeout(function () {
     process.stdout.clearLine();
@@ -54,7 +69,7 @@ function jugarNivel2(primerNivel, contadorRespuesta) {
       if (respuesta === primerNivel.toString() + segundoNivel) {
         contadorRespuesta++;
         console.log('¡Correcto, continúemos!');
-        jugarNivel2(Math.floor(Math.random() * 40 + 1), contadorRespuesta);
+        jugarNivel2(contadorRespuesta);
       } else {
         console.log('Respuesta incorrecta. La respuesta correcta era: ' + primerNivel + segundoNivel + '. Tu puntaje fue de: ' + contadorRespuesta);
         preguntarJugarDeNuevo();
@@ -63,11 +78,10 @@ function jugarNivel2(primerNivel, contadorRespuesta) {
   }, 1000);
 }
 
-function jugarNivel3(primerNivel, contadorRespuesta) {
-  let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  let emojis = ['🚀', '😊', '🎉', '🌈', '🍎', '🌟', '🌍', '📚', '🎸', '🏆', '🍓', '🌷', '🎤', '🌳', '🐬', '🍉', '🎨', '🍦', '🌺', '🍕'];
-  let segundoNivel = letras[Math.floor(Math.random() * letras.length)]; 
-  let tercerNivel = emojis[Math.floor(Math.random() * emojis.length)];
+function jugarNivel3(contadorRespuesta) {
+  let primerNivel = generarNumeroAleatorio();
+  let segundoNivel = generarLetraAleatoria();
+  let tercerNivel = generarEmojiAleatorio();
   process.stdout.write(String(primerNivel + segundoNivel + tercerNivel));
   setTimeout(function () {
     process.stdout.clearLine();
@@ -76,7 +90,7 @@ function jugarNivel3(primerNivel, contadorRespuesta) {
       if (respuesta === primerNivel.toString() + segundoNivel + tercerNivel) {
         contadorRespuesta++;
         console.log('¡Correcto, continúemos!');
-        jugarNivel3(Math.floor(Math.random() * 40 + 1), contadorRespuesta);
+        jugarNivel3(contadorRespuesta);
       } else {
         console.log('Respuesta incorrecta. La respuesta correcta era: ' + primerNivel + segundoNivel + tercerNivel + '. Tu puntaje fue de: ' + contadorRespuesta);
         preguntarJugarDeNuevo();
