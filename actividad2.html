@@ -1,21 +1,100 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="./actividad2.css"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MemorizaMix</title>
+        <link rel="shortcut icon" href="./IMAGENES/logo.jpg">
     </head>
+    <header>
+        <div class="titulo">
+            <h1>¡Bienvenido a MemorizaMix!</h1>
+            <p>Prepara tu mente para un desafío memorable.</p>
+        </div>
+    </header>
     <body>
+        <div class="introduccion">
+            <p>Tu tarea es recordar la secuencia presentada y recrearla con precisión. Cada ronda te llevará a nuevas combinaciones, ¡así que mantén tus sentidos agudos y listos para recordar!
+                ¿Estás listo para poner a prueba tu memoria y superar desafíos cada vez mayores? 
+            </p>
+        </div>
+        <div class="instrucciones">
+            <p>Elige tu nivel de destreza:</p>
+            <p>1. Nivel Principiante: "Descubrimiento Fácil" <br> 2. Nivel Intermedio: "Ritmo Normal" <br> 3. Nivel Avanzado: "Experto en Memoria"</p>
+        </div>
+        <div class="botonesDeNiveles">
+            <button id="boton1" onclick="iniciarJuego('boton1')">Nivel 1</button>
+            <button id="boton2" onclick="iniciarJuego('boton2')">Nivel 2</button>
+            <button id="boton3" onclick="iniciarJuego('boton3')">Nivel 3</button>
+        </div>
+        <div class="contenidoDelJuego">
+            <table>
+                <tbody class="contenido">
+                    Aquí estará el contenido
+                </tbody>
+            </table>
+        </div>
+        <div class="respuesta">
+            <input class="respuesta" type="text" placeholder="¿Qué lograste visualizar?">
+        </div>
+        <div class="puntaje">
+            <table>
+                <tbody class="contenido">
+                    <p>Tu puntaje es de: </p>
+                </tbody>
+            </table>
+        </div>
+        <div class="botonPie">
+            <button id="botonBack" onclick="volverJugar()">Volver a jugar</button>
+        </div>
         <script>
-        let nivel = prompt("Niveles de juego: 1.Fácil  2.Normal  3.Experto   Selecciona una opción: ")
-        let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R',
-        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        let emojis = ['🚀', '😊', '🎉', '🌈', '🍎', '🌟', '🌍', '📚', '🎸', '🏆', '🍓', '🌷', '🎤', '🌳', '🐬', 
-        '🍉', '🎨', '🍦', '🌺', '🍕'];
-        let indiceAleatorio = Math.floor(Math.random() * letras.length);
-        let indiceRandom = Math.floor(Math.random() * emojis.length)
-        let primerNivel = Math.floor(Math.random() * 40 + 1);
-        let segundoNivel = primerNivel + ' ' + letras[indiceAleatorio]
-        let tercerNivel = primerNivel + ' ' + segundoNivel + ' ' + emojis[indiceRandom];
-        
-        rl.close();
+            function generarNumeroAleatorio() {
+                return Math.floor(Math.random() * 40 + 1);
+            }
+
+            function generarLetraAleatoria() {
+                let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+                return letras[Math.floor(Math.random() * letras.length)];
+            }
+
+            function generarEmojiAleatorio() {
+                let emojis = ['🚀', '😊', '🎉', '🌈', '🍎', '🌟', '🌍', '📚', '🎸', '🏆', '🍓', '🌷', '🎤', '🌳', '🐬', '🍉', '🎨', '🍦', '🌺', '🍕'];
+                return emojis[Math.floor(Math.random() * emojis.length)];
+            }
+
+            
+            function iniciarJuego() {
+                function nivelElegido (id) {
+                    let secuencia = []
+                    jugar(id, secuencia)
+                };
+            };
+
+            function generarSecuencia(id) {
+                if (id === 'boton1') {
+                    console.log("Soy el boton 1")
+                    return generarNumeroAleatorio()
+                    console.log(generarNumeroAleatorio())
+                } else if (id === 'boton2') {
+                    console.log("Soy el boton 2")
+                    return generarNumeroAleatorio() + generarLetraAleatoria();
+                    console.log(generarNumeroAleatorio() + generarLetraAleatoria())
+                } else if (id === 'boton3') {
+                    console.log("Soy el boton 3")
+                    return generarNumeroAleatorio() + generarLetraAleatoria() + generarEmojiAleatorio();
+                    console.log(generarNumeroAleatorio() + generarLetraAleatoria() + generarEmojiAleatorio())
+                } else {
+                    console.log('Respuesta no válida')
+                    iniciarJuego()
+                }
+            };
+
+            function inputSecuencia(secuencia, callback) {
+                console.log('hola')
+            }
+
+
         </script>
     </body>
 </html>
