@@ -24,24 +24,30 @@
             <p>1. Nivel Principiante: "Descubrimiento Fácil" <br> 2. Nivel Intermedio: "Ritmo Normal" <br> 3. Nivel Avanzado: "Experto en Memoria"</p>
         </div>
         <div class="botonesDeNiveles">
-            <button id="boton1" onclick="iniciarJuego('boton1')">Nivel 1</button>
-            <button id="boton2" onclick="iniciarJuego('boton2')">Nivel 2</button>
-            <button id="boton3" onclick="iniciarJuego('boton3')">Nivel 3</button>
+            <button id="boton1" onclick="generarNivel('boton1')">Nivel 1</button>
+            <button id="boton2" onclick="generarNivel('boton2')">Nivel 2</button>
+            <button id="boton3" onclick="generarNivel('boton3')">Nivel 3</button>
         </div>
-        <div class="contenidoDelJuego">
+        <div id="contenido" class="contenidoDelJuego">
             <table>
                 <tbody class="contenido">
-                    Aquí estará el contenido
+                    
                 </tbody>
             </table>
         </div>
         <div class="respuesta">
-            <input class="respuesta" type="text" placeholder="¿Qué lograste visualizar?">
+            <input id="respuesta" class="respuesta" type="text" placeholder="¿Qué lograste visualizar?">
         </div>
-        <div class="puntaje">
+        <div class="continuar">
+            <button id="botonCotinuar" onclick="continuar()">Continuar</button>
+        </div>
+        <div id="tablaPuntos" class="puntaje">
             <table>
-                <tbody class="contenido">
-                    <p>Tu puntaje es de: </p>
+                <tbody>
+                    <tr>
+                        <td>Tu puntaje es de: </td>
+                        <td id="puntajeNumero"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -49,6 +55,15 @@
             <button id="botonBack" onclick="volverJugar()">Volver a jugar</button>
         </div>
         <script>
+            setTimeout(function () {
+                    document.getElementById('tablaPuntos').classList.add('oculto');
+                    document.getElementById('botonBack').classList.add('oculto');
+                    document.getElementById('respuesta').classList.add('oculto');
+                    document.getElementById('contenido').classList.add('oculto');
+            });
+
+            let contadorRespuesta = 0;
+
             function generarNumeroAleatorio() {
                 return Math.floor(Math.random() * 40 + 1);
             }
@@ -63,38 +78,95 @@
                 return emojis[Math.floor(Math.random() * emojis.length)];
             }
 
-            
-            function iniciarJuego() {
-                function nivelElegido (id) {
-                    let secuencia = []
-                    jugar(id, secuencia)
-                };
-            };
+            function elementosBorrados() {
+                document.getElementById('boton1').classList.add('oculto');
+                document.getElementById('boton2').classList.add('oculto');
+                document.getElementById('boton3').classList.add('oculto');
+                document.getElementById('botonBack').classList.add('oculto');
+                document.getElementById('tablaPuntos').classList.add('oculto');
+            }
 
-            function generarSecuencia(id) {
+            function elementosAgregados() {
+                document.getElementById('respuesta').classList.remove('oculto');
+                document.getElementById('contenido').classList.remove('oculto');
+            }
+
+            function generarNivel(id) {
+                elementosAgregados()
+                elementosBorrados();
+                let contenidoTabla = document.querySelector('.contenidoDelJuego tbody');
+
+                let fila = document.createElement('tr');
+                let celda = document.createElement('td');
+
                 if (id === 'boton1') {
-                    console.log("Soy el boton 1")
-                    return generarNumeroAleatorio()
-                    console.log(generarNumeroAleatorio())
+                    let numeroAleatorio = generarNumeroAleatorio();
+                    celda.textContent = numeroAleatorio;
+                    
                 } else if (id === 'boton2') {
-                    console.log("Soy el boton 2")
-                    return generarNumeroAleatorio() + generarLetraAleatoria();
-                    console.log(generarNumeroAleatorio() + generarLetraAleatoria())
+                    let numLetAleatorio = generarNumeroAleatorio() + generarLetraAleatoria();
+                    celda.textContent = numLetAleatorio;
                 } else if (id === 'boton3') {
-                    console.log("Soy el boton 3")
-                    return generarNumeroAleatorio() + generarLetraAleatoria() + generarEmojiAleatorio();
-                    console.log(generarNumeroAleatorio() + generarLetraAleatoria() + generarEmojiAleatorio())
+                    let numLetEmoAleatorio = generarNumeroAleatorio() + generarLetraAleatoria() + generarEmojiAleatorio();
+                    celda.textContent = numLetEmoAleatorio;
                 } else {
-                    console.log('Respuesta no válida')
-                    iniciarJuego()
+                    console.log('Nivel no válido.')
                 }
-            };
+                
+                let valorGenerado = celda.textContent;
 
-            function inputSecuencia(secuencia, callback) {
-                console.log('hola')
+                setTimeout(function () {
+                    contenidoTabla.innerHTML = '';
+                    inputSecuencia(valorGenerado);
+                }, 5000);
+
+                fila.appendChild(celda);
+
+                contenidoTabla.appendChild(fila);
+
             }
 
 
+            function inputSecuencia(valorGenerado) {
+                let respuestaUsuario = document.getElementById('respuesta').value;
+
+                if (respuestaUsuario === valorGenerado) {
+                    alert('Respuesta correcta. Siguiente ronda.');
+                    contadorRespuesta++;
+                    //generarSiguienteElemento();
+                    generarNivel('boton1')
+                } else {
+                    document.getElementById('tablaPuntos').classList.remove('oculto');
+                    document.getElementById('puntajeNumero').textContent = contadorRespuesta;
+                    document.getElementById('botonBack').classList.remove('oculto');
+                }
+            }
+
+            //function generarSiguienteElemento() {
+               // let nuevaSecuencia = generarNivel(id, secuencia)
+                //secuencia.push(nuevaSecuencia)
+
+                //inputSecuencia(secuencia.join(""), (valorGenerado) => {
+                  //  inputSecuencia()
+                   // generarSiguienteElemento(id, secuencia);
+               // })
+            //}
+
+            function volverJugar() {
+                document.getElementById('boton1').classList.remove('oculto');
+                document.getElementById('boton2').classList.remove('oculto');
+                document.getElementById('boton3').classList.remove('oculto');
+                document.getElementById('tablaPuntos').classList.add('oculto');
+                contadorRespuesta = 0;
+                setTimeout(function () {
+                    document.getElementById('botonBack').classList.add('oculto');
+                    document.getElementById('respuesta').classList.add('oculto');
+                    document.getElementById('contenido').classList.add('oculto');
+                });
+
+            }
+            
+            
         </script>
     </body>
 </html>

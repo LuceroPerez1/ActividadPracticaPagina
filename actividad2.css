@@ -76,6 +76,22 @@ header {
     padding: 1%;
 }
 
+.continuar  button{
+    background-color: white;
+    padding: 5px 20px;
+    border-radius: 5%;
+    cursor: pointer;
+    margin: 10px;
+    font-weight: bold;
+    margin-top: 3%;
+    display: none;
+}
+
+.continuar button:hover{
+    background-color: #863e5a;
+    color: white;
+}
+
 .puntaje {
     background-color: rgb(250, 111, 134);
     margin-left: 40%;
@@ -92,4 +108,13 @@ header {
     margin: 10px;
     font-weight: bold;
     margin-top: 3%;
+}
+
+.botonPie button:hover{
+    color: white;
+    background-color: green;
+}
+
+.oculto {
+    display: none;
 }
