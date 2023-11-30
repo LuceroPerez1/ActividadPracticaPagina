@@ -55,41 +55,9 @@
             <button id="botonBack" onclick="volverJugar()">Volver a jugar</button>
         </div>
         <script>
-            setTimeout(function () {
-                    document.getElementById('tablaPuntos').classList.add('oculto');
-                    document.getElementById('botonBack').classList.add('oculto');
-                    document.getElementById('respuesta').classList.add('oculto');
-                    document.getElementById('contenido').classList.add('oculto');
-            });
-
+            
             let contadorRespuesta = 0;
-
-            function generarNumeroAleatorio() {
-                return Math.floor(Math.random() * 40 + 1);
-            }
-
-            function generarLetraAleatoria() {
-                let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-                return letras[Math.floor(Math.random() * letras.length)];
-            }
-
-            function generarEmojiAleatorio() {
-                let emojis = ['🚀', '😊', '🎉', '🌈', '🍎', '🌟', '🌍', '📚', '🎸', '🏆', '🍓', '🌷', '🎤', '🌳', '🐬', '🍉', '🎨', '🍦', '🌺', '🍕'];
-                return emojis[Math.floor(Math.random() * emojis.length)];
-            }
-
-            function elementosBorrados() {
-                document.getElementById('boton1').classList.add('oculto');
-                document.getElementById('boton2').classList.add('oculto');
-                document.getElementById('boton3').classList.add('oculto');
-                document.getElementById('botonBack').classList.add('oculto');
-                document.getElementById('tablaPuntos').classList.add('oculto');
-            }
-
-            function elementosAgregados() {
-                document.getElementById('respuesta').classList.remove('oculto');
-                document.getElementById('contenido').classList.remove('oculto');
-            }
+            let secuencia = []
 
             function generarNivel(id) {
                 elementosAgregados()
@@ -135,6 +103,8 @@
                     contadorRespuesta++;
                     //generarSiguienteElemento();
                     generarNivel('boton1')
+                    generarNivel('boton2')
+                    //generarNivel('boton3')
                 } else {
                     document.getElementById('tablaPuntos').classList.remove('oculto');
                     document.getElementById('puntajeNumero').textContent = contadorRespuesta;
@@ -143,13 +113,15 @@
             }
 
             //function generarSiguienteElemento() {
-               // let nuevaSecuencia = generarNivel(id, secuencia)
-                //secuencia.push(nuevaSecuencia)
-
-                //inputSecuencia(secuencia.join(""), (valorGenerado) => {
-                  //  inputSecuencia()
-                   // generarSiguienteElemento(id, secuencia);
-               // })
+            //    let nuevaSecuencia = generarNivel(id, secuencia)
+            //    secuencia.push(nuevaSecuencia)
+//
+            //    inputSecuencia(secuencia.join(""), (valorGenerado) => {
+             //       generarNivel(id)
+             //       inputSecuencia(valorGenerado, respuestaUsuario)
+             //       //generarSiguienteElemento(id, secuencia);
+//
+             //   })
             //}
 
             function volverJugar() {
@@ -166,7 +138,39 @@
 
             }
             
-            
+            setTimeout(function () {
+                    document.getElementById('tablaPuntos').classList.add('oculto');
+                    document.getElementById('botonBack').classList.add('oculto');
+                    document.getElementById('respuesta').classList.add('oculto');
+                    document.getElementById('contenido').classList.add('oculto');
+            });
+
+            function elementosBorrados() {
+                document.getElementById('boton1').classList.add('oculto');
+                document.getElementById('boton2').classList.add('oculto');
+                document.getElementById('boton3').classList.add('oculto');
+                document.getElementById('botonBack').classList.add('oculto');
+                document.getElementById('tablaPuntos').classList.add('oculto');
+            }
+
+            function elementosAgregados() {
+                document.getElementById('respuesta').classList.remove('oculto');
+                document.getElementById('contenido').classList.remove('oculto');
+            }
+
+            function generarNumeroAleatorio() {
+                return Math.floor(Math.random() * 40 + 1);
+            }
+
+            function generarLetraAleatoria() {
+                let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+                return letras[Math.floor(Math.random() * letras.length)];
+            }
+
+            function generarEmojiAleatorio() {
+                let emojis = ['🚀', '😊', '🎉', '🌈', '🍎', '🌟', '🌍', '📚', '🎸', '🏆', '🍓', '🌷', '🎤', '🌳', '🐬', '🍉', '🎨', '🍦', '🌺', '🍕'];
+                return emojis[Math.floor(Math.random() * emojis.length)];
+            }
         </script>
     </body>
 </html>
