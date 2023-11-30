@@ -105,7 +105,7 @@
                     alert('Respuesta correcta. Siguiente ronda.');
                     contadorRespuesta++;
                     //generarSiguienteElemento();
-                    generarNivel()
+                    generarNivel('boton1', 'boton2', 'boton3')
                     
                     //generarNivel('boton3')
                 } else {
@@ -118,7 +118,7 @@
             function generarSiguienteElemento(id, secuencia, respuestaUsuario) {
                 let nuevaSecuencia = generarNivel(id)
                 secuencia.push(nuevaSecuencia)
-                inputSecuencia(valorGenerado.join(""), (valorGenerado) => {
+                inputSecuencia(secuencia.join(""), (valorGenerado) => {
                    inputSecuencia(valorGenerado, respuestaUsuario)
                    generarSiguienteElemento(id, secuencia);
                })
