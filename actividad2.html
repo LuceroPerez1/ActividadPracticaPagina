@@ -82,6 +82,9 @@
                 }
                 
                 let valorGenerado = celda.textContent;
+                //celda.textContent = secuencia
+                //secuencia = celda.textContent;
+                //celda.textContent = secuencia 
 
                 setTimeout(function () {
                     contenidoTabla.innerHTML = '';
@@ -102,8 +105,8 @@
                     alert('Respuesta correcta. Siguiente ronda.');
                     contadorRespuesta++;
                     //generarSiguienteElemento();
-                    generarNivel('boton1')
-                    generarNivel('boton2')
+                    generarNivel()
+                    
                     //generarNivel('boton3')
                 } else {
                     document.getElementById('tablaPuntos').classList.remove('oculto');
@@ -112,17 +115,14 @@
                 }
             }
 
-            //function generarSiguienteElemento() {
-            //    let nuevaSecuencia = generarNivel(id, secuencia)
-            //    secuencia.push(nuevaSecuencia)
-//
-            //    inputSecuencia(secuencia.join(""), (valorGenerado) => {
-             //       generarNivel(id)
-             //       inputSecuencia(valorGenerado, respuestaUsuario)
-             //       //generarSiguienteElemento(id, secuencia);
-//
-             //   })
-            //}
+            function generarSiguienteElemento(id, secuencia, respuestaUsuario) {
+                let nuevaSecuencia = generarNivel(id)
+                secuencia.push(nuevaSecuencia)
+                inputSecuencia(valorGenerado.join(""), (valorGenerado) => {
+                   inputSecuencia(valorGenerado, respuestaUsuario)
+                   generarSiguienteElemento(id, secuencia);
+               })
+            }
 
             function volverJugar() {
                 document.getElementById('boton1').classList.remove('oculto');
